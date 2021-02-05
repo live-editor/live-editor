@@ -1,0 +1,40 @@
+{
+  "name": "live-editor-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm-run-all  --parallel server watch",
+    "simple": "npm-run-all  --parallel server watch-simple",
+    "custom": "npm-run-all  --parallel server watch-custom",
+    "mention": "npm-run-all  --parallel server watch-mention",
+    "calendar": "npm-run-all  --parallel server watch-calendar",
+    "date": "npm-run-all  --parallel server watch-date",
+    "label": "npm-run-all  --parallel server watch-label",
+    "server": "node ./server -s ./dist --enable-fake-token-api",
+    "watch": "webpack --watch --config webpack.dev.js",
+    "watch-simple": "webpack --watch --config webpack.simple.js",
+    "watch-custom": "webpack --watch --config webpack.custom.js",
+    "watch-mention": "webpack --watch --config webpack.mention.js",
+    "watch-calendar": "webpack --watch --config webpack.calendar.js",
+    "watch-date": "webpack --watch --config webpack.date.js",
+    "watch-label": "webpack --watch --config webpack.label.js"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^4.5.0",
+    "npm-run-all": "^4.1.5",
+    "ts-loader": "^8.0.9",
+    "typescript": "^4.0.5",
+    "webpack": "^5.10.0",
+    "webpack-bundle-analyzer": "^4.2.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.5.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mime": "^1.6.0",
+    "live-editor": "^0.0.2"
+  }
+}
