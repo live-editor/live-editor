@@ -1,4 +1,4 @@
-### Hi there 👋
+### Enable Real-Time Co-Editing in Applications
 
 <!--
 **live-editor/live-editor** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
