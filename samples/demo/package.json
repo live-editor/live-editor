@@ -1,0 +1,19 @@
+{
+  "name": "live-editor-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm-run-all  --parallel server watch",
+    "dev": "npm-run-all  --parallel server watch",
+    "server": "cd ./server && yarn dev",
+    "watch": "cd ./web && yarn dev"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  }
+}
