@@ -1,7 +1,6 @@
 /* eslint-disable no-alert */
 import {
-  createEditor,
-  assert,
+  createEditorPromise,
   AuthMessage,
 } from 'live-editor/client';
 
@@ -58,5 +57,6 @@ const docId = 'my-test-doc-id-simple';
   };
 
   // create editor and load document
-  const editor = createEditor(document.getElementById('editor') as HTMLElement, options, auth);
+  const editor = await createEditorPromise(document.getElementById('editor') as HTMLElement, options, auth);
+  console.log(editor);
 })();
