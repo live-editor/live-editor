@@ -35,6 +35,6 @@
   "license": "ISC",
   "dependencies": {
     "mime": "^1.6.0",
-    "live-editor": "^0.0.18"
+    "live-editor": "^0.0.20"
   }
 }
