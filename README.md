@@ -115,6 +115,7 @@ Real-Time co-editing.
 * Flowchart, Sequence Diagram, Class Diagram, etc. (mermaid)
 * Diagram (drawio)
 * Layout
+* Chart (by Chart.js)
 
 ##### Block state
 * locked / unlocked
