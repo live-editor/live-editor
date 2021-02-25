@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Editor Demo</title>
+  <script src='https://cdn.jsdelivr.net/npm/live-editor@0.0.23/client/src/index.js' charset="utf-8"></script>
+</head>
+<body>
+  <div id="editor"></div>
+</body>
+<script>
+const {
+  EditorUser,
+  Editor,
+  createEditorPromise,
+  assert,
+  BlockElement,
+  blockUtils,
+  containerUtils,
+  CommandItemData,
+  MenuItem,
+  domUtils,
+  getEditor,
+  AuthMessage,
+  OnProgress,
+  EditorOptions,
+  SelectionDetail,
+  EditorDoc,
+  genId,
+} = window.LiveEditor;
+
+const AppId = '';
+
+const user1 = {
+  avatarUrl: '',
+  userId: 'test',
+  displayName: 'test',
+};
+
+// --------------------------- mention data ----------------
+
+function createLoadDataMenuItem(block) {
+  const menuItem = MenuItem.createElement(document.documentElement, {
+    id: '',
+    text: 'Load data...',
+  });
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'application/json';
+  domUtils.addClass(input, 'menu-item-input');
+  //
+  menuItem.appendChild(input);
+  //
+  input.onchange = (event) => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    assert(block);
+    const editor = getEditor(block);
+    const container = containerUtils.getParentContainer(block);
+    const index = containerUtils.getBlockIndex(block);
+    if (!blockUtils.isEmptyTextBlock(block)) {
+      // eslint-disable-next-line no-param-reassign
+      block = editor.insertTextBlock(container, index + 1, '');
+    }
+    //
+    assert(event.target);
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = () => {
+        const data = JSON.parse(reader.result);
+        // eslint-disable-next-line no-use-before-define
+        loadDocument(document.getElementById('editor'), user1, '', data);
+      };
+      input.files = null;
+    }
+  };
+  return menuItem;
+}
+
+function handleGetBlockCommand(block, detail, type) {
+  if (type === 'menu') {
+    //
+    const loadDataMenuItem = createLoadDataMenuItem(block);
+    //
+    return [{
+      id: '',
+      text: 'Load data',
+      order: 200,
+      element: loadDataMenuItem,
+      onClick: () => {},
+    }];
+  }
+  return [];
+}
+
+
+async function handleGetChartData(editor, id) {
+  const number = Number.parseInt(id.substr(id.lastIndexOf('_') + 1), 10);
+  console.log(`get chart data: ${number}`);
+  const dataArray = [{
+    type: 'line',
+    data: {
+      datasets: [{
+        label: 'First dataset',
+        data: [0, 20, 40, 50],
+      }],
+      labels: ['January', 'February', 'March', 'April'],
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            suggestedMin: 50,
+            suggestedMax: 100,
+          },
+        }],
+      },
+    },
+  }, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [{
+        label: 'My First dataset',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [0, 10, 5, 2, 20, 30, 45],
+      }],
+    },
+    // Configuration options go here
+    options: {},
+  }];
+  const data = dataArray[number % 2];
+  console.log(data);
+  return data;
+}
+
+function replaceUrl(docId) {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const now = window.location.href;
+  if (now.endsWith(docId)) return;
+  //
+  const newUrl = `${window.location.origin}${window.location.pathname}?id=${docId}`;
+  window.history.pushState({}, '', newUrl);
+  //
+  localStorage.setItem('lastDocId', docId);
+}
+
+function handleUploadResource(file) {
+  return domUtils.fileToDataUrl(file);
+}
+//
+
+async function loadDocument(element, user, docId, initLocalData) {
+  //
+  const auth = {
+    appId: AppId,
+    userId: user.userId,
+    permission: 'w',
+    docId,
+    token: '',
+  };
+
+  //
+  const options = {
+    local: true,
+    initLocalData,
+    serverUrl: '',
+    user,
+    placeholder: 'Please enter document title',
+    // markdownOnly: true,
+    lineNumber: true,
+    titleInEditor: true,
+    hideComments: true,
+    callbacks: {
+      onGetBlockCommand: handleGetBlockCommand,
+      onUploadResource: handleUploadResource,
+      onGetChartJsData: handleGetChartData,
+    },
+  };
+  const editor = await createEditorPromise(element, options, auth);
+  assert(editor);
+  return editor;
+}
+
+const defaultData = {
+  blocks: [{
+    id: genId(),
+    type: 'text',
+    heading: 1,
+    text: [{
+      insert: 'Chart demo',
+    }],
+  }, {
+    id: genId(),
+    type: 'text',
+    heading: 3,
+    text: [{
+      insert: 'Chart 1',
+    }],
+  }, {
+    id: genId(),
+    embedData: {src: "callback:chart_id_1", width: 600},
+    embedType: "chartjs",
+    type: "embed",
+  }, {
+    id: genId(),
+    type: 'text',
+    heading: 3,
+    text: [{
+      insert: 'Chart 2',
+    }],
+  }, {
+    id: genId(),
+    embedData: {src: "callback:chart_id_2", width: 600},
+    embedType: "chartjs",
+    type: "embed",
+  }],
+  meta: {},
+  comments: {},
+}
+
+loadDocument(document.getElementById('editor'), user1, '', defaultData).then((editor) => {
+  replaceUrl(editor.auth.docId);
+});
+
+</script>
+</html>
