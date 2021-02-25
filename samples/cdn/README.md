@@ -8,7 +8,10 @@ https://cdn.jsdelivr.net/npm/live-editor@0.0.22/client/src/index.js
 
 ## Code
 
-```js
+```html
+<script src='https://cdn.jsdelivr.net/npm/live-editor@0.0.22/client/src/index.js' charset="utf-8"></script>
+
+<script>
 const {
   EditorUser,
   Editor,
@@ -27,4 +30,5 @@ const {
   SelectionDetail,
   EditorDoc,
 } = window.LiveEditor;
+</script>
 ```
