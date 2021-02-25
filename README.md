@@ -81,6 +81,10 @@ const docId = 'my-test-doc-id-simple';
 })();
 ```
 
+### react demo
+
+[react demo](./samples/react)
+
 ### Features
 
 Real-Time co-editing.
