@@ -145,7 +145,7 @@ function addSelfAvatar(user: EditorUser) {
   container.appendChild(userDom);
 }
 
-function handleRemoteUserChanged(docId: string, users: EditorUser[]) {
+function handleRemoteUserChanged(editor: Editor, users: EditorUser[]) {
   const fragment = document.createDocumentFragment();
   users.forEach((user) => {
     const userDom = document.createElement('div');

@@ -9,6 +9,7 @@ import {
   AuthMessage,
   AuthPermission,
   EditorOptions,
+  Editor,
 } from 'live-editor/client';
 
 function hideElement(id: string) {
@@ -56,7 +57,7 @@ NAMES.forEach((name) => {
   ALL_USERS.push(user);
 });
 
-async function fakeGetMentionItems(keywords: string): Promise<AutoSuggestData[]> {
+async function fakeGetMentionItems(editor: Editor, keywords: string): Promise<AutoSuggestData[]> {
   assert(keywords !== undefined);
   console.log(keywords);
   if (!keywords) {
@@ -85,7 +86,7 @@ function replaceUrl(docId: string) {
   window.history.pushState({}, '', newUrl);
 }
 
-function handleSave(docId: string, data: any) {
+function handleSave(editor: Editor, data: any) {
   console.log(JSON.stringify(data, null, 2));
   const text = docData2Text(data);
   console.log('------------------- document text --------------------');
@@ -93,14 +94,14 @@ function handleSave(docId: string, data: any) {
   console.log('------------------------------------------------------');
 }
 
-function handleLoad(docId: string, data: any): void {
-  console.log(`${docId} loaded`);
+function handleLoad(editor: Editor, data: any): void {
+  console.log(`${editor.docId()} loaded`);
   assert(data);
-  replaceUrl(docId);
+  replaceUrl(editor.docId());
 }
 
-function handleError(docId: string, error: Error): void {
-  console.log(`${docId} error: ${error}`);
+function handleError(editor: Editor, error: Error): void {
+  console.log(`${editor.docId()} error: ${error}`);
   alert(error);
 }
 

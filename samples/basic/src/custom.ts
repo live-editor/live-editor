@@ -893,7 +893,7 @@ NAMES.forEach((name) => {
   ALL_USERS.push(user);
 });
 
-async function fakeGetMentionItems(keywords: string): Promise<AutoSuggestData[]> {
+async function fakeGetMentionItems(editor: Editor, keywords: string): Promise<AutoSuggestData[]> {
   assert(keywords !== undefined);
   console.log(keywords);
   if (!keywords) {
@@ -902,7 +902,7 @@ async function fakeGetMentionItems(keywords: string): Promise<AutoSuggestData[]>
   return ALL_USERS.filter((user) => user.text.toLowerCase().indexOf(keywords.toLowerCase()) !== -1);
 }
 
-function handleMentionInserted(boxData: MentionBoxData, block: BlockElement, pos: number) {
+function handleMentionInserted(editor: Editor, boxData: MentionBoxData, block: BlockElement, pos: number) {
   console.log(`mention ${JSON.stringify(boxData)} inserted at ${pos}`);
   const leftText = blockUtils.toText(block, 0, pos);
   const rightText = blockUtils.toText(block, pos + 1, -1);
@@ -910,7 +910,7 @@ function handleMentionInserted(boxData: MentionBoxData, block: BlockElement, pos
   console.log(`anchor id: ${anchorId}, context text:\n\n${leftText}\n\n${rightText}`);
 }
 
-function handleMentionClicked(boxData: MentionBoxData) {
+function handleMentionClicked(editor: Editor, boxData: MentionBoxData) {
   alert(`you clicked ${boxData.text} (${boxData.mentionId})`);
 }
 
@@ -924,7 +924,7 @@ const ALL_TAGS = [
   'Web Editor',
 ];
 
-async function fakeGetTags(keywords: string): Promise<string[]> {
+async function fakeGetTags(editor: Editor, keywords: string): Promise<string[]> {
   assert(keywords !== undefined);
   console.log(keywords);
   if (!keywords) {
@@ -933,11 +933,11 @@ async function fakeGetTags(keywords: string): Promise<string[]> {
   return ALL_TAGS.filter((tag) => tag.toLowerCase().indexOf(keywords.toLowerCase()) !== -1);
 }
 
-function handleTagInserted(tag: string, block: BlockElement, pos: number) {
+function handleTagInserted(editor: Editor, tag: string, block: BlockElement, pos: number) {
   console.log(`tag ${tag} inserted at ${pos}`);
 }
 
-function handleTagClicked(tag: string) {
+function handleTagClicked(editor: Editor, tag: string) {
   alert(`you clicked tag ${tag}`);
 }
 
@@ -978,7 +978,7 @@ function replaceUrl(docId: string) {
   window.history.pushState({}, '', newUrl);
 }
 
-async function handleSave(docId: string, data: any) {
+async function handleSave(editor: Editor, data: any) {
   console.log(JSON.stringify(data, null, 2));
   const text = docData2Text(data);
   console.log('------------------- document text --------------------');
@@ -989,7 +989,7 @@ async function handleSave(docId: string, data: any) {
   console.log(html);
 }
 
-function handleRemoteUserChanged(docId: string, users: EditorUser[]) {
+function handleRemoteUserChanged(editor: Editor, users: EditorUser[]) {
   const userNames = [...users].map((u) => u.displayName).join(', ');
   const curElement = document.getElementById('curUserNames');
   assert(curElement);
@@ -1002,18 +1002,18 @@ function handleRemoteUserChanged(docId: string, users: EditorUser[]) {
   }
 }
 
-function handleLoad(docId: string, data: any): void {
-  console.log(`${docId} loaded`);
+function handleLoad(editor: Editor, data: any): void {
+  console.log(`${editor.docId()} loaded`);
   assert(data);
-  replaceUrl(docId);
+  replaceUrl(editor.docId());
 }
 
-function handleError(docId: string, error: Error): void {
-  console.log(`${docId} error: ${error}`);
+function handleError(editor: Editor, error: Error): void {
+  console.log(`${editor.docId()} error: ${error}`);
   alert(error);
 }
 
-function handleStatusChanged(docId: string, dirty: boolean): void {
+function handleStatusChanged(editor: Editor, dirty: boolean): void {
   const elem = document.getElementById('docStatus');
   if (elem) {
     elem.style.color = dirty ? 'rgb(237, 227, 79)' : 'green';
@@ -1060,7 +1060,7 @@ function handleMenuItemClicked(event: Event, item: CommandItemData) {
   }
 }
 
-function handleGetBlockCommand(block: BlockElement, detail: SelectionDetail, type: 'fixed' | 'hover' | 'menu'): CommandItemData[] {
+function handleGetBlockCommand(editor: Editor, block: BlockElement, detail: SelectionDetail, type: 'fixed' | 'hover' | 'menu'): CommandItemData[] {
   if (!blockUtils.isTextTypeBlock(block)) {
     return [];
   }
@@ -1212,17 +1212,17 @@ const DocTemplateValues = {
   date: new Date().toLocaleDateString(),
 };
 
-function handleCommentInserted(commentId: string, commentDocText: string, commentText: string, selectedBlock: SelectedBlock): void {
+function handleCommentInserted(editor: Editor, commentId: string, commentDocText: string, commentText: string, selectedBlock: SelectedBlock): void {
   console.log(`comment created: ${commentText}`);
   assert(selectedBlock);
 }
 
-function handleCommentReplied(toUserId: string, orgCommentText: string, commentText: string): void {
+function handleCommentReplied(editor: Editor, toUserId: string, orgCommentText: string, commentText: string): void {
   assert(commentText);
   console.log(`comment replied to ${toUserId}: ${commentText}`);
 }
 
-function handleCommandStatusChanged(status: CommandStatus): void {
+function handleCommandStatusChanged(editor: Editor, status: CommandStatus): void {
   // console.log(status);
   const toolbar = document.querySelector('#toolbar');
   assert(toolbar);
@@ -1271,7 +1271,7 @@ function handleCommandStatusChanged(status: CommandStatus): void {
   (document.getElementById('custom-suggest') as HTMLButtonElement).disabled = disabledInsertBox;
 }
 
-function handleCheckboxChanged(text: string, blockData: BlockData, mentions: BoxData[], calendars: BoxData[]) {
+function handleCheckboxChanged(editor: Editor, text: string, blockData: BlockData, mentions: BoxData[], calendars: BoxData[]) {
   // TODO: create / modify messages
   console.log(`checkbox changed: ${text}, ${JSON.stringify(blockData)}, ${JSON.stringify(mentions)}, ${JSON.stringify(calendars)}`);
 }

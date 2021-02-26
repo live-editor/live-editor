@@ -3,7 +3,7 @@ import { LiveEditor, domUtils } from 'live-editor-react'
 
 const appId = '';
 
-function handleUploadResource(file) {
+function handleUploadResource(editor, file) {
   return domUtils.fileToDataUrl(file);
 }
 
