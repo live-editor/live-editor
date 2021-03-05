@@ -131,3 +131,4 @@ Real-Time co-editing.
 * export html
 * import docx files
 * support focus & typewriter mode
+* display list as MindMap
