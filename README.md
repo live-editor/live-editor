@@ -130,3 +130,4 @@ Real-Time co-editing.
 * import / export markdown
 * export html
 * import docx files
+* support focus & typewriter mode
