@@ -18,6 +18,7 @@ yarn add live-editor
 ```js
 const { startServer } = require('live-editor/server');
 
+// ref: node_modules/live-editor/config/server.json
 const options = {
   enableFakeTokenApi: true, // enable fake token api only in test environment
 };
