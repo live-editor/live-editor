@@ -4,7 +4,7 @@
   <title>Live Editor Demo</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-  <script src='https://cdn.jsdelivr.net/npm/live-editor@0.0.36/client/src/index.js' charset="utf-8"></script>
+  <script src='https://cdn.jsdelivr.net/npm/live-editor@0.0.38/client/src/index.js' charset="utf-8"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" id="editor-chartjs"></script>
 </head>
 <body>
@@ -302,7 +302,7 @@ function genRandomData() {
   var cfg = {
     data: {
       datasets: [{
-        label: 'CHRT - Chart.js Corporation',
+        label: 'CHART - Chart.js Corporation',
         backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
         borderColor: window.chartColors.red,
         data: generateData(),
@@ -388,7 +388,7 @@ function genRandomData() {
   };
   return cfg;
 }
-	
+
 async function handleGetChartData(editor, id) {
   const number = Number.parseInt(id.substr(id.lastIndexOf('_') + 1), 10);
   if (number % 3 === 0) {
