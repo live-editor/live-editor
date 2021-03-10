@@ -2,6 +2,7 @@
 import {
   createEditorPromise,
   AuthMessage,
+  EditorOptions,
 } from 'live-editor/client';
 
 function hideElement(id: string) {
@@ -29,9 +30,10 @@ const user = {
 };
 
 // editor options
-const options = {
+const options: EditorOptions = {
   serverUrl: WsServerUrl,
   user,
+  titleInEditor: true,
 };
 
 async function fakeGetAccessTokenFromServer(userId: string, docId: string): Promise<string> {
