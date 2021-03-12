@@ -1438,6 +1438,7 @@ document.getElementById('link')?.addEventListener('click', () => {
       currentEditor.insertImage(null, file, -2);
     });
     input.files = null;
+    input.value = '';
   }
 });
 
@@ -1451,6 +1452,7 @@ document.getElementById('link')?.addEventListener('click', () => {
       currentEditor.insertAudio(null, file, -2);
     });
     input.files = null;
+    input.value = '';
   }
 });
 
@@ -1464,6 +1466,7 @@ document.getElementById('link')?.addEventListener('click', () => {
       currentEditor.insertVideo(null, file, -2);
     });
     input.files = null;
+    input.value = '';
   }
 });
 
@@ -1477,6 +1480,7 @@ document.getElementById('link')?.addEventListener('click', () => {
       currentEditor.insertOffice(null, file, -2);
     });
     input.files = null;
+    input.value = '';
   }
 });
 
