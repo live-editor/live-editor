@@ -1,7 +1,5 @@
 /* eslint-disable no-alert */
 import {
-  EditorUser,
-  LANGS,
   createEditor,
   assert,
   AutoSuggestData,
@@ -72,7 +70,7 @@ const WsServerUrl = window.location.protocol !== 'https:'
   ? `ws://${window.location.host}`
   : `wss://${window.location.host}`;
 
-const user: EditorUser = {
+const user = {
   avatarUrl: 'https://www.live-editor.com/wp-content/new-uploads/a0919cb4-d3c2-4027-b64d-35a4c2dc8e23.png',
   userId: `${new Date().valueOf()}`,
   displayName: NAMES[new Date().valueOf() % NAMES.length],
@@ -114,7 +112,6 @@ async function fakeGetAccessTokenFromServer(userId: string, docId: string, permi
 async function loadDocument(docId: string) {
   const options: EditorOptions = {
     serverUrl: WsServerUrl,
-    user,
     placeholder: 'Type here...',
     titleInEditor: true,
     callbacks: {
@@ -128,7 +125,7 @@ async function loadDocument(docId: string) {
   const token = await fakeGetAccessTokenFromServer(user.userId, docId, 'w');
   const auth: AuthMessage = {
     appId: AppId,
-    userId: user.userId,
+    ...user,
     permission: 'w',
     docId,
     token,

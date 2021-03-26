@@ -3,14 +3,13 @@
 <head>
   <title>Live Editor Demo</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-  <script src='https://cdn.jsdelivr.net/npm/live-editor@0.0.44/client/src/index.js' charset="utf-8"></script>
+  <script src='https://cdn.jsdelivr.net/npm/live-editor@0.0.101/client/src/index.js' charset="utf-8"></script>
 </head>
 <body>
   <div id="editor"></div>
 </body>
 <script>
 const {
-  EditorUser,
   Editor,
   createEditorPromise,
   assert,
@@ -31,7 +30,7 @@ const {
 const AppId = '';
 
 const user1 = {
-  avatarUrl: '',
+  avatarUrl: 'https://live-editor.com/wp-content/new-uploads/2f4c76a6-db63-4de1-a5c0-28cf36384b7e.png',
   userId: 'test',
   displayName: 'test',
 };
@@ -114,7 +113,7 @@ async function loadDocument(element, user, docId, initLocalData) {
   //
   const auth = {
     appId: AppId,
-    userId: user.userId,
+    ...user,
     permission: 'w',
     docId,
     token: '',
@@ -125,7 +124,6 @@ async function loadDocument(element, user, docId, initLocalData) {
     local: true,
     initLocalData,
     serverUrl: '',
-    user,
     placeholder: 'Please enter document title',
     // markdownOnly: true,
     lineNumber: true,

@@ -27,12 +27,12 @@ const WsServerUrl = window.location.protocol !== 'https:'
 const user = {
   userId: `${new Date().valueOf()}`,
   displayName: 'test user',
+  avatarUrl: 'https://www.live-editor.com/wp-content/new-uploads/a0919cb4-d3c2-4027-b64d-35a4c2dc8e23.png',
 };
 
 // editor options
 const options: EditorOptions = {
   serverUrl: WsServerUrl,
-  user,
   titleInEditor: true,
 };
 
@@ -52,7 +52,7 @@ const docId = 'my-test-doc-id-simple';
   // editor auth data
   const auth: AuthMessage = {
     appId: AppId,
-    userId: user.userId,
+    ...user,
     docId,
     token,
     permission: 'w',

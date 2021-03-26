@@ -1,7 +1,6 @@
 /* eslint-disable no-alert */
 import {
   createEditor,
-  assert,
   boxUtils,
   BoxData,
   BoxNode,
@@ -82,6 +81,7 @@ const WsServerUrl = window.location.protocol !== 'https:'
 const user = {
   userId: `${new Date().valueOf()}`,
   displayName: 'test user',
+  avatarUrl: 'https://www.live-editor.com/wp-content/new-uploads/a0919cb4-d3c2-4027-b64d-35a4c2dc8e23.png',
 };
 
 // editor options
@@ -106,7 +106,7 @@ const docId = 'my-test-doc-id-box-date';
   // editor auth data
   const auth: AuthMessage = {
     appId: AppId,
-    userId: user.userId,
+    ...user,
     docId,
     token,
     permission: 'w',

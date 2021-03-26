@@ -22,10 +22,6 @@ const App = () => {
     initLocalData: docData ? docData : undefined,
     titleInEditor: true,
     serverUrl: '',
-    user: {
-      userId: 'test-user',
-      displayName: 'Test User',
-    },
     callbacks: {
       onUploadResource: handleUploadResource,
     }
@@ -68,6 +64,9 @@ const App = () => {
     </div>
     <LiveEditor
       appId={appId}
+      userId={'test-user'}
+      displayName={'Test User'}
+      avatarUrl={'https://live-editor.com/wp-content/new-uploads/2f4c76a6-db63-4de1-a5c0-28cf36384b7e.png'}
       docId={docId}
       options={options}
       permission={'w'}

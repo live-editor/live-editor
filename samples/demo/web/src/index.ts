@@ -1,5 +1,4 @@
 import {
-  EditorUser,
   createEditorPromise,
   assert,
   Editor,
@@ -8,6 +7,7 @@ import {
   genId,
   EditorOptions,
   DocBlock,
+  OnlineUser,
 } from 'live-editor/client';
 import axios from 'axios';
 import './styles/editor.css';
@@ -128,7 +128,11 @@ const WsServerUrl = 'wss://api.live-editor.com';
 
 let oldEditor: Editor | undefined;
 
-function addSelfAvatar(user: EditorUser) {
+function addSelfAvatar(user: {
+  userId: string,
+  avatarUrl: string,
+  displayName: string,
+}) {
   const container = document.getElementById('selfAvatar');
   assert(container);
   const userDom = document.createElement('div');
@@ -145,7 +149,7 @@ function addSelfAvatar(user: EditorUser) {
   container.appendChild(userDom);
 }
 
-function handleRemoteUserChanged(editor: Editor, users: EditorUser[]) {
+function handleRemoteUserChanged(editor: Editor, users: OnlineUser[]) {
   const fragment = document.createDocumentFragment();
   users.forEach((user) => {
     const userDom = document.createElement('div');
@@ -178,16 +182,7 @@ async function loadDocument(template?: EditorDoc): Promise<Editor | undefined> {
     oldEditor = undefined;
   }
   //
-  const token = await getEditorServiceAccessToken(docId);
-  assert(appId);
-  const auth: AuthMessage = {
-    appId,
-    userId,
-    permission: 'w',
-    docId,
-    token,
-  };
-  //
+
   const avatarUrls = [
     'https://live-editor.com/wp-content/new-uploads/2f4c76a6-db63-4de1-a5c0-28cf36384b7e.png',
     'https://live-editor.com/wp-content/new-uploads/fc728217-55e3-4d09-b034-07a9960a6b39.png',
@@ -198,11 +193,23 @@ async function loadDocument(template?: EditorDoc): Promise<Editor | undefined> {
     'https://live-editor.com/wp-content/new-uploads/200598ee-a746-403f-9908-a91949bc41c2.png',
   ];
   //
-  const user: EditorUser = {
+  //
+  const user = {
     avatarUrl: avatarUrls[(userIndex % avatarUrls.length)],
     userId,
     displayName: userId,
   };
+  //
+  const token = await getEditorServiceAccessToken(docId);
+  assert(appId);
+  const auth: AuthMessage = {
+    appId,
+    ...user,
+    permission: 'w',
+    docId,
+    token,
+  };
+  //
   //
   const element = document.getElementById('editor');
   assert(element);
@@ -219,7 +226,6 @@ async function loadDocument(template?: EditorDoc): Promise<Editor | undefined> {
 
   const options: EditorOptions = {
     serverUrl: WsServerUrl,
-    user,
     placeholder: '',
     template,
     templateValues: {},
