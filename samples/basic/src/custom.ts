@@ -49,7 +49,6 @@ import {
   EditorOptions,
   OnlineUser,
 } from 'live-editor/client';
-import { getAllBlockMenuItems } from 'live-editor/client/src/blocks/Block';
 
 const AppId = '_LC1xOdRp';
 
