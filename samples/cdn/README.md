@@ -9,7 +9,7 @@ https://cdn.jsdelivr.net/npm/live-editor@0.0.34/client/src/index.js
 ## Code
 
 ```html
-<script src='https://cdn.jsdelivr.net/npm/live-editor@0.0.382/client/src/index.js' charset="utf-8"></script>
+<script src='https://cdn.jsdelivr.net/npm/live-editor@0.0.420/client/src/index.js' charset="utf-8"></script>
 
 <script>
 const {
